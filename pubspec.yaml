@@ -1,0 +1,39 @@
+name: portfolio_app
+description: "Portfolio website built with Flutter"
+publish_to: 'none' 
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  font_awesome_flutter: ^10.7.0
+  url_launcher: ^6.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/profile.jpg
+    # If you plan to add more images (logos, project screenshots, etc.), 
+    # create them inside the assets/ folder and list them here.
+    # Example:
+    # - assets/projects/project1.png
+    # - assets/icons/github.png
+
+  # If you want to use custom fonts, uncomment and add them here
+  # fonts:
+  #   - family: MyCustomFont
+  #     fonts:
+  #       - asset: fonts/MyCustomFont-Regular.ttf
+  #       - asset: fonts/MyCustomFont-Bold.ttf
+  #         weight: 700
