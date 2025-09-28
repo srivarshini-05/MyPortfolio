@@ -51,7 +51,7 @@ class ExperienceAwardsPage extends StatelessWidget {
 
                   const SizedBox(height: 24),
 
-                  // Awards & Achievements
+                  // Awards & Achievements (responsive fix applied)
                   _buildAwards(),
 
                   const SizedBox(height: 24),
@@ -77,7 +77,7 @@ class ExperienceAwardsPage extends StatelessWidget {
     );
   }
 
-  // PROFESSIONAL EXPERIENCE
+  // ==================== PROFESSIONAL EXPERIENCE ====================
   static Widget _buildProfessionalExperience() {
     final experiences = [
       {
@@ -124,9 +124,7 @@ class ExperienceAwardsPage extends StatelessWidget {
               ),
               border: Border(
                 left: BorderSide(
-                  color: exp["current"] == true
-                      ? Colors.green
-                      : Colors.cyan,
+                  color: exp["current"] == true ? Colors.green : Colors.cyan,
                   width: 4,
                 ),
               ),
@@ -139,21 +137,27 @@ class ExperienceAwardsPage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(exp["title"] as String,
-                              style: const TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold)),
-                          Row(
-                            children: [
-                              const Icon(Icons.business, size: 16, color: Colors.grey),
-                              const SizedBox(width: 4),
-                              Text(exp["company"] as String,
-                                  style: const TextStyle(color: Colors.black54)),
-                            ],
-                          ),
-                        ]),
+                    Flexible(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(exp["title"] as String,
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold)),
+                            Row(
+                              children: [
+                                const Icon(Icons.business,
+                                    size: 16, color: Colors.grey),
+                                const SizedBox(width: 4),
+                                Flexible(
+                                  child: Text(exp["company"] as String,
+                                      style: const TextStyle(
+                                          color: Colors.black54)),
+                                ),
+                              ],
+                            ),
+                          ]),
+                    ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
@@ -165,23 +169,28 @@ class ExperienceAwardsPage extends StatelessWidget {
                                 color: Colors.green,
                                 borderRadius: BorderRadius.circular(8)),
                             child: const Text("Current Position",
-                                style: TextStyle(color: Colors.white, fontSize: 12)),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 12)),
                           ),
                         const SizedBox(height: 6),
                         Row(
                           children: [
-                            const Icon(Icons.calendar_today, size: 14, color: Colors.grey),
+                            const Icon(Icons.calendar_today,
+                                size: 14, color: Colors.grey),
                             const SizedBox(width: 4),
                             Text(exp["duration"] as String,
-                                style: const TextStyle(color: Colors.black54, fontSize: 12)),
+                                style: const TextStyle(
+                                    color: Colors.black54, fontSize: 12)),
                           ],
                         ),
                         Row(
                           children: [
-                            const Icon(Icons.location_on, size: 14, color: Colors.grey),
+                            const Icon(Icons.location_on,
+                                size: 14, color: Colors.grey),
                             const SizedBox(width: 4),
                             Text(exp["location"] as String,
-                                style: const TextStyle(color: Colors.black54, fontSize: 12)),
+                                style: const TextStyle(
+                                    color: Colors.black54, fontSize: 12)),
                           ],
                         ),
                       ],
@@ -198,10 +207,12 @@ class ExperienceAwardsPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text("• ",
-                                  style: TextStyle(color: Colors.cyan, fontSize: 16)),
+                                  style: TextStyle(
+                                      color: Colors.cyan, fontSize: 16)),
                               Expanded(
                                   child: Text(resp,
-                                      style: const TextStyle(color: Colors.black87))),
+                                      style: const TextStyle(
+                                          color: Colors.black87))),
                             ],
                           ))
                       .toList(),
@@ -214,7 +225,7 @@ class ExperienceAwardsPage extends StatelessWidget {
     );
   }
 
-  // AWARDS
+  // ==================== AWARDS ====================
   static Widget _buildAwards() {
     final awards = [
       {
@@ -264,64 +275,72 @@ class ExperienceAwardsPage extends StatelessWidget {
       }
     ];
 
-    return _buildSection(
-      icon: Icons.emoji_events,
-      title: "Awards & Achievements",
-      child: GridView.count(
-        crossAxisCount: 2,
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        childAspectRatio: 3,
-        mainAxisSpacing: 12,
-        crossAxisSpacing: 12,
-        children: awards.map((award) {
-          return Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.yellow.shade50,
-              border: Border.all(color: Colors.yellow.shade200),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(award["icon"]!, style: const TextStyle(fontSize: 28)),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(children: [
-                        Expanded(
-                            child: Text(award["title"]!,
-                                style: const TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold))),
-                        _buildBadge(award["year"]!, category: "Year")
-                      ]),
-                      const SizedBox(height: 4),
-                      Row(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        int crossAxisCount = constraints.maxWidth < 600 ? 1 : 2; // ✅ Responsive
+        return _buildSection(
+          icon: Icons.emoji_events,
+          title: "Awards & Achievements",
+          child: GridView.count(
+            crossAxisCount: crossAxisCount,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            childAspectRatio: 3,
+            mainAxisSpacing: 12,
+            crossAxisSpacing: 12,
+            children: awards.map((award) {
+              return Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.yellow.shade50,
+                  border: Border.all(color: Colors.yellow.shade200),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(award["icon"]!, style: const TextStyle(fontSize: 28)),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _buildBadge(award["position"]!),
-                          const SizedBox(width: 6),
-                          _buildBadge(award["category"]!, category: "Category"),
+                          Row(children: [
+                            Expanded(
+                                child: Text(award["title"]!,
+                                    style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold))),
+                            _buildBadge(award["year"]!, category: "Year")
+                          ]),
+                          const SizedBox(height: 4),
+                          Wrap(
+                            spacing: 6,
+                            runSpacing: 4,
+                            children: [
+                              _buildBadge(award["position"]!),
+                              _buildBadge(award["category"]!,
+                                  category: "Category"),
+                            ],
+                          ),
+                          const SizedBox(height: 6),
+                          Text(award["description"]!,
+                              style: const TextStyle(
+                                  fontSize: 12, color: Colors.black54)),
                         ],
                       ),
-                      const SizedBox(height: 6),
-                      Text(award["description"]!,
-                          style: const TextStyle(
-                              fontSize: 12, color: Colors.black54)),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          );
-        }).toList(),
-      ),
+                    )
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
+        );
+      },
     );
   }
 
-  // VOLUNTEER WORK
+  // ==================== VOLUNTEER WORK ====================
   static Widget _buildVolunteer() {
     return _buildSection(
       icon: Icons.volunteer_activism,
@@ -345,7 +364,8 @@ class ExperienceAwardsPage extends StatelessWidget {
             Text(
                 "Coordinated and organized the IEEE Conference conducted by the Department of Computer Science and Engineering, St. Joseph's College of Engineering."),
             SizedBox(height: 8),
-            Text("Impact: Successfully managed conference logistics and ensured smooth execution of technical sessions",
+            Text(
+                "Impact: Successfully managed conference logistics and ensured smooth execution of technical sessions",
                 style: TextStyle(color: Colors.black87)),
           ],
         ),
@@ -353,7 +373,7 @@ class ExperienceAwardsPage extends StatelessWidget {
     );
   }
 
-  // ACHIEVEMENT SUMMARY
+  // ==================== ACHIEVEMENT SUMMARY ====================
   static Widget _buildSummary() {
     final stats = [
       {"icon": "🏆", "value": "5", "label": "Awards Won"},
@@ -368,23 +388,30 @@ class ExperienceAwardsPage extends StatelessWidget {
       child: Wrap(
         spacing: 16,
         runSpacing: 16,
+        alignment: WrapAlignment.center,
         children: stats.map((stat) {
-          return Container(
-            width: 220,
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: Colors.cyan.shade100),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              children: [
-                Text(stat["icon"]!, style: const TextStyle(fontSize: 28)),
-                Text(stat["value"]!,
-                    style: const TextStyle(
-                        fontSize: 22, fontWeight: FontWeight.bold, color: Colors.cyan)),
-                Text(stat["label"]!, style: const TextStyle(color: Colors.black54)),
-              ],
+          return SizedBox(
+            width: 160, // ✅ smaller cards fit mobile
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.cyan.shade100),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                children: [
+                  Text(stat["icon"]!, style: const TextStyle(fontSize: 28)),
+                  Text(stat["value"]!,
+                      style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.cyan)),
+                  Text(stat["label"]!,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: Colors.black54)),
+                ],
+              ),
             ),
           );
         }).toList(),
@@ -392,7 +419,7 @@ class ExperienceAwardsPage extends StatelessWidget {
     );
   }
 
-  // CALL TO ACTION
+  // ==================== CALL TO ACTION ====================
   static Widget _buildCTA() {
     return Container(
       width: double.infinity,
@@ -407,7 +434,10 @@ class ExperienceAwardsPage extends StatelessWidget {
       child: Column(
         children: const [
           Text("Let's Connect!",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white)),
+              style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white)),
           SizedBox(height: 6),
           Text(
               "Interested in collaborating or learning more about my journey? I'd love to hear from you.",
@@ -416,6 +446,8 @@ class ExperienceAwardsPage extends StatelessWidget {
           SizedBox(height: 12),
           Wrap(
             spacing: 16,
+            runSpacing: 8,
+            alignment: WrapAlignment.center,
             children: [
               Chip(label: Text("📧 psrivarshini005@gmail.com")),
               Chip(label: Text("📱 7538848395")),
@@ -426,7 +458,7 @@ class ExperienceAwardsPage extends StatelessWidget {
     );
   }
 
-  // SECTION WRAPPER
+  // ==================== SECTION WRAPPER ====================
   static Widget _buildSection(
       {required IconData icon, required String title, required Widget child}) {
     return Container(
@@ -443,8 +475,8 @@ class ExperienceAwardsPage extends StatelessWidget {
             Icon(icon, color: Colors.cyan),
             const SizedBox(width: 8),
             Text(title,
-                style:
-                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                style: const TextStyle(
+                    fontSize: 20, fontWeight: FontWeight.bold)),
           ]),
           const SizedBox(height: 16),
           child,
@@ -453,7 +485,7 @@ class ExperienceAwardsPage extends StatelessWidget {
     );
   }
 
-  // BADGES
+  // ==================== BADGES ====================
   static Widget _buildBadge(String text, {String? category}) {
     Color bg = Colors.grey.shade200;
     Color fg = Colors.grey.shade700;
